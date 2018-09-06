@@ -4,7 +4,7 @@
     {
         public string Name { get; private set; }
 
-       public User(string name)
+        public User(string name)
         {
             Name = name;
         }

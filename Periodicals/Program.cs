@@ -26,7 +26,7 @@ namespace Periodicals
         {
             ProccessCsv(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
 
-            GetRevOfAllMagazinesInYear(2018);
+            GetRevOfAllMagazinesInYear(2017);
 
         }
 
@@ -44,7 +44,7 @@ namespace Periodicals
                 Console.WriteLine($"--{magazineMonthlyRevenue.Key.Title}");
                 for (int j = 1; j <= 12; j++)
                 {
-                    Console.WriteLine($"   month:{j} = {magazineMonthlyRevenue.Value[j -1]}");
+                    Console.WriteLine($"   month:{j} = {magazineMonthlyRevenue.Value[j - 1]}");
                 }
             }
 
@@ -53,7 +53,7 @@ namespace Periodicals
         {
 
 
-            var subs = subscriptions.FindAll(s => s.Magazine.Title == magazine.Title && s.StartDate.Year <= year &&  year <= s.EndDate.Year );
+            var subs = subscriptions.FindAll(s => s.Magazine.Title == magazine.Title && s.StartDate.Year <= year && year <= s.EndDate.Year);
             var revs = new List<float>();
             for (int month = 1; month <= 12; month++)
             {
