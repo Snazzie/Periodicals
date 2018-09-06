@@ -25,12 +25,51 @@ namespace Periodicals
         static void Main(string[] args)
         {
             ProccessCsv(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
-
-            GetRevOfAllMagazinesInYear(2017);
-
+            Menu();
         }
 
-        static void GetRevOfAllMagazinesInYear(int year)
+        private static void Menu()
+        {
+            bool exit = false;
+
+            while (!exit)
+            {
+                Console.Write("#Menu \n" +
+                              "1. Get all magazine revenue in year\n" +
+                              "2. See which customers have failed to pay\n \n" +
+                              "Use your number key to select one. \n");
+
+                switch (Console.ReadKey().KeyChar)
+                {
+                    case '1':
+                        Console.Clear();
+                        Console.Write("Get all magazine revenue in year: ");
+                        var year = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+                        GetRevenueOfAllMagazinesInYear(year);
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case '2':
+                        Console.Clear();
+                        CustomersFailedToPlay();
+                        break;
+                    case '0':
+                        Console.Clear();
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid Input");
+                        break;
+                }
+            }
+        }
+
+        private static void CustomersFailedToPlay()
+        {
+            throw new NotImplementedException();
+        }
+
+        static void GetRevenueOfAllMagazinesInYear(int year)
         {
             Console.WriteLine($"# Monthly Revenue in {year} for all magazines");
             var magazinesMonthlyRevenue = new Dictionary<Magazine, List<float>>();
@@ -41,18 +80,18 @@ namespace Periodicals
 
             foreach (var magazineMonthlyRevenue in magazinesMonthlyRevenue)
             {
-                Console.WriteLine($"--{magazineMonthlyRevenue.Key.Title}");
-                for (int j = 1; j <= 12; j++)
+                Console.WriteLine($"--{magazineMonthlyRevenue.Key.Title} -> Sum: ${magazineMonthlyRevenue.Value.Sum()}");
+                
+                for (int month = 1; month <= 12; month++)
                 {
-                    Console.WriteLine($"   month:{j} = {magazineMonthlyRevenue.Value[j - 1]}");
+                    Console.WriteLine($"   month:{month} = ${magazineMonthlyRevenue.Value[month - 1]}");
                 }
+                
             }
 
         }
         public static List<float> GetMagazineMonthlyRevenueInYear(Magazine magazine, int year, List<Subscription> subscriptions)
         {
-
-
             var subs = subscriptions.FindAll(s => s.Magazine.Title == magazine.Title && s.StartDate.Year <= year && year <= s.EndDate.Year);
             var revs = new List<float>();
             for (int month = 1; month <= 12; month++)
