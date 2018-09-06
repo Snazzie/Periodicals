@@ -46,8 +46,15 @@ namespace Periodicals
                     case '1':
                         Console.Clear();
                         Console.Write("Get all magazine revenue in year: ");
-                        var year = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-                        SubscriptionService.ShowRevenueOfAllMagazinesInYear(year);
+                        var success = int.TryParse(Console.ReadLine(), out int year );
+                        if (success)
+                        {
+                            SubscriptionService.ShowRevenueOfAllMagazinesInYear(year);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Input Invalid");
+                        }
                         Console.ReadKey();
                         break;
                     case '2':
