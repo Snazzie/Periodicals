@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Periodicals
 {
-    class Program
+    public class Program
     {
         private static List<Magazine> Magazines => new List<Magazine>()
         {
@@ -20,13 +20,13 @@ namespace Periodicals
 
         };
         private static List<User> users = new List<User>();
-        private static List<Subscription> subscriptions = new List<Subscription>();
+        public static List<Subscription> Subscriptions { get; set; }
 
         static void Main(string[] args)
         {
             ProccessCsv(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
 
-            GetRevOfAllMagazinesInYear(2017);
+            GetRevOfAllMagazinesInYear(2018);
 
         }
 
@@ -36,7 +36,7 @@ namespace Periodicals
             var magazinesMonthlyRevenue = new Dictionary<Magazine, List<float>>();
             foreach (var magazine in Magazines)
             {
-                magazinesMonthlyRevenue.Add(magazine, GetMagazineMonthlyRevenueInYear(magazine, year));
+                magazinesMonthlyRevenue.Add(magazine, GetMagazineMonthlyRevenueInYear(magazine, year, Subscriptions));
             }
 
             foreach (var m in magazinesMonthlyRevenue)
@@ -49,7 +49,7 @@ namespace Periodicals
             }
 
         }
-        static List<float> GetMagazineMonthlyRevenueInYear(Magazine magazine, int year)
+        public static List<float> GetMagazineMonthlyRevenueInYear(Magazine magazine, int year, List<Subscription> subscriptions)
         {
 
 
@@ -92,7 +92,7 @@ namespace Periodicals
                 var lastPaid = DateTime.Parse(newLines[3]);
 
                 users.Add(user);
-                subscriptions.Add(new Subscription(user, magazine, startDate, lastPaid));
+                Subscriptions.Add(new Subscription(user, magazine, startDate, lastPaid));
 
             }
 

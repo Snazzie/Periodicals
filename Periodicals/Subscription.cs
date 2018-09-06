@@ -21,7 +21,7 @@ namespace Periodicals
             Magazine = magazine;
             StartDate = startDate;
             LastPaid = lastPaid;
-            EndDate = startDate.AddMonths(12);
+            EndDate = lastPaid.AddMonths(12);
         }
 
 
