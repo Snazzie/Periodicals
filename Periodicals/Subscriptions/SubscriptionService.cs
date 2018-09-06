@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Periodicals.GeneralClasses;
+using Periodicals.Magazines;
+using Periodicals.Users;
 
 namespace Periodicals.Subscriptions
 {

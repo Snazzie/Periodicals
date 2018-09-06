@@ -1,4 +1,4 @@
-﻿namespace Periodicals.GeneralClasses
+﻿namespace Periodicals.Users
 {
     public class User
     {

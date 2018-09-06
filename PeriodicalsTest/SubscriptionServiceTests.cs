@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using NSubstitute;
 using NUnit.Framework;
-using Periodicals.GeneralClasses;
+using Periodicals.Magazines;
 using Periodicals.Subscriptions;
+using Periodicals.Users;
 
 namespace PeriodicalsTest
 {

@@ -1,5 +1,6 @@
 ﻿using System;
-using Periodicals.GeneralClasses;
+using Periodicals.Magazines;
+using Periodicals.Users;
 
 namespace Periodicals.Subscriptions
 {
