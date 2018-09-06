@@ -20,7 +20,7 @@ namespace Periodicals
 
         };
         private static List<User> users = new List<User>();
-        public static List<Subscription> Subscriptions { get; set; }
+        public static List<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 
         static void Main(string[] args)
         {
@@ -39,12 +39,12 @@ namespace Periodicals
                 magazinesMonthlyRevenue.Add(magazine, GetMagazineMonthlyRevenueInYear(magazine, year, Subscriptions));
             }
 
-            foreach (var m in magazinesMonthlyRevenue)
+            foreach (var magazineMonthlyRevenue in magazinesMonthlyRevenue)
             {
-                Console.WriteLine($"--{m.Key.Title}");
+                Console.WriteLine($"--{magazineMonthlyRevenue.Key.Title}");
                 for (int j = 1; j <= 12; j++)
                 {
-                    Console.WriteLine($"   month:{j} = {m.Value[j -1]}");
+                    Console.WriteLine($"   month:{j} = {magazineMonthlyRevenue.Value[j -1]}");
                 }
             }
 
@@ -53,11 +53,12 @@ namespace Periodicals
         {
 
 
-            var subs = subscriptions.FindAll(s => s.Magazine.Title == magazine.Title && s.StartDate.Year == year);
+            var subs = subscriptions.FindAll(s => s.Magazine.Title == magazine.Title && s.StartDate.Year <= year &&  year <= s.EndDate.Year );
             var revs = new List<float>();
             for (int month = 1; month <= 12; month++)
             {
-                var subsInMonth = subs.FindAll(s => s.StartDate.Month >= month && s.StartDate.Month <= s.EndDate.Month);
+                var checkingMonth = Convert.ToDateTime($"01/{month}/{year}");
+                var subsInMonth = subs.FindAll(s => s.StartDate <= checkingMonth && checkingMonth <= s.EndDate);
                 revs.Add(subsInMonth.Count * (magazine.Price / 12));
             }
 
