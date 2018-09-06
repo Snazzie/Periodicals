@@ -36,7 +36,8 @@ namespace Periodicals
             {
                 Console.Write("#Menu \n" +
                               "1. Get all magazine revenue in year\n" +
-                              "2. See which customers have failed to pay\n \n" +
+                              "2. See which customers have failed to pay\n" +
+                              "0. Exit\n\n" +
                               "Use your number key to select one. \n");
 
                 switch (Console.ReadKey().KeyChar)
@@ -45,31 +46,44 @@ namespace Periodicals
                         Console.Clear();
                         Console.Write("Get all magazine revenue in year: ");
                         var year = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-                        GetRevenueOfAllMagazinesInYear(year);
+                        RevenueOfAllMagazinesInYear(year);
                         Console.ReadKey();
-                        Console.Clear();
                         break;
                     case '2':
                         Console.Clear();
-                        CustomersFailedToPlay();
+                        FailedToPayCustomers();
+                        Console.ReadKey();
                         break;
                     case '0':
                         Console.Clear();
                         exit = true;
                         break;
-                    default:
-                        Console.WriteLine("Invalid Input");
-                        break;
                 }
+                Console.Clear();
             }
         }
 
-        private static void CustomersFailedToPlay()
+        private static void FailedToPayCustomers()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"# Users who have failed to pay as of today ({DateTime.Today.ToShortDateString()}): \n");
+            var failedToPaySubscriptions = new List<Subscription>();
+            foreach (var subscription in Subscriptions)
+            {
+                if (subscription.EndDate < DateTime.Today)
+                {
+                    failedToPaySubscriptions.Add(subscription);
+                }
+            }
+
+            foreach (var subscription in failedToPaySubscriptions)
+            {
+                Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Magazine.Title}\n" +
+                                  $"      Last paid date: {subscription.LastPaid.ToShortDateString()}\n" +
+                                  $"      Subscription end date: {subscription.EndDate.ToShortDateString()}\n");
+            }
         }
 
-        static void GetRevenueOfAllMagazinesInYear(int year)
+        static void RevenueOfAllMagazinesInYear(int year)
         {
             Console.WriteLine($"# Monthly Revenue in {year} for all magazines");
             var magazinesMonthlyRevenue = new Dictionary<Magazine, List<float>>();
