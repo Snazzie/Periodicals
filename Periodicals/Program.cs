@@ -33,7 +33,7 @@ namespace Periodicals
         static void GetRevOfAllMagazinesInYear(int year)
         {
             Console.WriteLine($"# Monthly Revenue in {year} for all magazines");
-            var magazinesMonthlyRevenue = new Dictionary<Magazine, List<int>>();
+            var magazinesMonthlyRevenue = new Dictionary<Magazine, List<float>>();
             foreach (var magazine in Magazines)
             {
                 magazinesMonthlyRevenue.Add(magazine, GetMagazineMonthlyRevenueInYear(magazine, year));
@@ -44,17 +44,17 @@ namespace Periodicals
                 Console.WriteLine($"--{m.Key.Title}");
                 for (int j = 1; j <= 12; j++)
                 {
-                    Console.WriteLine($"   month:{j} = {m.Value[j]}");
+                    Console.WriteLine($"   month:{j} = {m.Value[j -1]}");
                 }
             }
 
         }
-        static List<int> GetMagazineMonthlyRevenueInYear(Magazine magazine, int year)
+        static List<float> GetMagazineMonthlyRevenueInYear(Magazine magazine, int year)
         {
 
 
             var subs = subscriptions.FindAll(s => s.Magazine.Title == magazine.Title && s.StartDate.Year == year);
-            var revs = new List<int>();
+            var revs = new List<float>();
             for (int month = 1; month <= 12; month++)
             {
                 var subsInMonth = subs.FindAll(s => s.StartDate.Month >= month && s.StartDate.Month <= s.EndDate.Month);
