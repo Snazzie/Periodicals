@@ -44,11 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Magazine.cs" />
+    <Compile Include="GeneralClasses\Magazine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubscriptionService.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Subscriptions\SubscriptionService.cs" />
+    <Compile Include="Subscriptions\Subscription.cs" />
+    <Compile Include="GeneralClasses\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

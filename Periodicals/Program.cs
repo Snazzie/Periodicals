@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Periodicals.GeneralClasses;
+using Periodicals.Subscriptions;
 namespace Periodicals
 {
     public class Program
