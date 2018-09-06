@@ -20,7 +20,6 @@ namespace Periodicals
             new Magazine("\"Snow, Ice and You\"", 749)
 
         };
-        private static List<User> users = new List<User>();
         public static SubscriptionService SubscriptionService { get; set; } = new SubscriptionService(Magazines);
 
         private static void Main(string[] args)
@@ -89,7 +88,6 @@ namespace Periodicals
                 var startDate = DateTime.Parse(newLines[2]);
                 var lastPaid = DateTime.Parse(newLines[3]);
 
-                users.Add(user);
                 SubscriptionService.AddSubscription(user, magazine, startDate, lastPaid);
 
             }
