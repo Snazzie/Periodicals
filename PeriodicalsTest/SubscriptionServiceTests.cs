@@ -9,7 +9,7 @@ using Periodicals.Subscriptions;
 namespace PeriodicalsTest
 {
     [TestFixture]
-    public class ProgramTest
+    public class SubscriptionServiceTests
     {
 
         [SetUp]
@@ -17,11 +17,6 @@ namespace PeriodicalsTest
         {
         }
 
-        [Test]
-        public void ProccessCsv_CanGetAllDataOut()
-        {
-
-        }
         [Test]
         public void GetMagazineMonthlyRevenueInYear_ReturnsCorrectMonthlyRevenues()
         {
