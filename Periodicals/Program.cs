@@ -13,16 +13,15 @@ namespace Periodicals
 {
     public class Program
     {
-        private static List<Magazine> Magazines => new List<Magazine>()
+        private static MagazineService MagazineService => new MagazineService(new List<Magazine>
         {
             new Magazine("Dogs Monthly", 399),
             new Magazine("Beekeeper", 249),
             new Magazine("Rock'n'Bass", 500),
             new Magazine("Amiga Gamer", 169),
-            new Magazine("\"Snow, Ice and You\"", 749)
+            new Magazine("\"Snow, Ice and You\"", 749)});
 
-        };
-        public static SubscriptionService SubscriptionService { get; set; } = new SubscriptionService(Magazines);
+        public static SubscriptionService SubscriptionService { get; set; } = new SubscriptionService(MagazineService.Magazines);
 
         private static void Main(string[] args)
         {
@@ -86,7 +85,7 @@ namespace Periodicals
                 var user = new User(newLines[0]);
                 var title = newLines[1];
 
-                var magazine = Magazines.Find(m => m.Title == title);
+                var magazine = MagazineService.Magazines.Find(m => m.Title == title);
                 var startDate = DateTime.Parse(newLines[2]);
                 var lastPaid = DateTime.Parse(newLines[3]);
 
