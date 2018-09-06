@@ -8,7 +8,7 @@ using Periodicals;
 namespace PeriodicalsTest
 {
     [TestFixture]
-    public class UnitTest1
+    public class ProgramTest
     {
 
         [SetUp]
@@ -34,8 +34,8 @@ namespace PeriodicalsTest
 
             List<float> rev = Program.GetMagazineMonthlyRevenueInYear(magazine, year,subscriptions);
             List<float> rev2 = Program.GetMagazineMonthlyRevenueInYear(magazine2, year, subscriptions);
-            Assert.AreEqual(magazine.Price * 12, rev.Sum());
-            Assert.AreEqual(magazine2.Price * 8, rev2.Sum());
+            Assert.AreEqual((magazine.Price/12) * 12, rev.Sum());
+            Assert.AreEqual((magazine2.Price/12) * 8, rev2.Sum());
         }
     }
 }
