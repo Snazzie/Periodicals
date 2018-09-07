@@ -30,6 +30,7 @@ namespace Periodicals
             return subscriptions;
         }
 
+        // TODO: Handle infinite amount of commas
         public static bool TryCreateSubscriptionFromLine(MagazineService magazineService,string line, out Subscription subscription)
         {
             var newLines = line.Split(',').ToList();
