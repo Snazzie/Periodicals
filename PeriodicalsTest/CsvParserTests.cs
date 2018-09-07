@@ -10,12 +10,12 @@ namespace PeriodicalsTest
     [TestFixture]
     public class CsvParserTests
     {
-        public MagazineService MagazineService = new MagazineService();
+        public MagazineService MagazineService; 
 
         [SetUp]
         public void SetUp()
         {
-            MagazineService.AddMagazine(new List<Magazine>
+            MagazineService = new MagazineService(new List<Magazine>
             {
                 new Magazine("Dogs Monthly", 399),
                 new Magazine("Beekeeper", 249),

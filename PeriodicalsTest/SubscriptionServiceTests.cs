@@ -12,11 +12,12 @@ namespace PeriodicalsTest
     [TestFixture]
     public class SubscriptionServiceTests
     {
-        public MagazineService MagazineService = new MagazineService();
+        public MagazineService MagazineService;
 
         [SetUp]
         public void Setup()
         {
+            MagazineService = new MagazineService();
         }
 
         [Test]
@@ -28,7 +29,7 @@ namespace PeriodicalsTest
             var user2 = new User("Geo");
             var magazine = new Magazine("mag", 500);
             var magazine2 = new Magazine("haha", 400);
-            MagazineService.AddMagazine(new List<Magazine> {magazine, magazine2});
+            MagazineService.AddMagazine(new List<Magazine> { magazine, magazine2 });
             var subscriptionService = new SubscriptionService(MagazineService.Magazines);
             subscriptionService.AddSubscription(new List<Subscription>()
             {
