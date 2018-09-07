@@ -20,17 +20,15 @@ namespace Periodicals.Users
             Users = users;
         }
 
-        public void AddUser(User user)
+        public void AddUser(User newUser)
         {
-            Users.Add(user);
+            if (!Users.Exists(u => u.Name == newUser.Name))
+                Users.Add(newUser);
         }
 
-        public void Adduser(List<User> users)
+        public void Adduser(IEnumerable<User> users)
         {
-            foreach (var user in users)
-            {
-                Users.Add(user);
-            }
+            users.ToList().ForEach(u => Users.Add(u));
         }
     }
 }

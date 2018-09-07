@@ -17,17 +17,14 @@ namespace Periodicals.Subscriptions
             Magazines = magazines;
         }
 
-        public void AddSubscription(User user, Magazine magazine, DateTime startDate, DateTime lastPaid)
+        public void AddSubscription(Subscription subscription)
         {
-            Subscriptions.Add(new Subscription(user,magazine,startDate,lastPaid));
+            Subscriptions.Add(subscription);
         }
 
-        public void AddSubscription(List<Subscription> subscriptions)
+        public void AddSubscription(IEnumerable<Subscription> subscriptions)
         {
-            foreach (var subscription in subscriptions)
-            {
-                Subscriptions.Add(new Subscription(subscription.User, subscription.Magazine, subscription.StartDate, subscription.LastPaid));
-            }
+            subscriptions.ToList().ForEach(s => Subscriptions.Add(new Subscription(s.User, s.Magazine, s.StartDate, s.LastPaid)));
         }
 
         public void ShowFailedToPayCustomers()

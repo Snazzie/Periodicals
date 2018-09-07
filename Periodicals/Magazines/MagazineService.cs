@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Periodicals.Magazines
 {
@@ -21,13 +22,9 @@ namespace Periodicals.Magazines
             Magazines.Add(magazine);
         }
 
-        public void AddMagazine(List<Magazine> magazines)
+        public void AddMagazine(IEnumerable<Magazine> magazines)
         {
-            foreach (var magazine in magazines)
-            {
-                Magazines.Add(magazine);
-            }
-
+            magazines.ToList().ForEach(m => Magazines.Add(m));
         }
 
     }
