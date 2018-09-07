@@ -12,6 +12,7 @@ namespace PeriodicalsTest
     [TestFixture]
     public class SubscriptionServiceTests
     {
+        public MagazineService MagazineService = new MagazineService();
 
         [SetUp]
         public void Setup()
@@ -27,15 +28,15 @@ namespace PeriodicalsTest
             var user2 = new User("Geo");
             var magazine = new Magazine("mag", 500);
             var magazine2 = new Magazine("haha", 400);
-            var magazines = new List<Magazine> {magazine, magazine2};
-            var subscriptionService = new SubscriptionService(magazines);
+            MagazineService.AddMagazine(new List<Magazine> {magazine, magazine2});
+            var subscriptionService = new SubscriptionService(MagazineService.Magazines);
             subscriptionService.AddSubscription(new List<Subscription>()
             {
-                new Subscription(user, magazine, Convert.ToDateTime("01/01/2017"),
+                new Subscription(MagazineService, user, magazine.Title, Convert.ToDateTime("01/01/2017"),
                     Convert.ToDateTime("01/01/2018")),
-                new Subscription(user2, magazine2, Convert.ToDateTime("01/04/2017"),
+                new Subscription(MagazineService, user2, magazine2.Title, Convert.ToDateTime("01/04/2017"),
                     Convert.ToDateTime("01/04/2017")),
-                new Subscription(user, magazine2, Convert.ToDateTime("01/09/2014"),
+                new Subscription(MagazineService, user, magazine2.Title, Convert.ToDateTime("01/09/2014"),
                     Convert.ToDateTime("01/09/2017"))
             });
 

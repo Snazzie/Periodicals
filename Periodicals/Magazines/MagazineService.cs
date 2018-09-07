@@ -21,12 +21,17 @@ namespace Periodicals.Magazines
         {
             Magazines.Add(magazine);
         }
-
         public void AddMagazine(IEnumerable<Magazine> magazines)
         {
             magazines.ToList().ForEach(m => Magazines.Add(m));
         }
 
+        public bool MagazineExists(string title, out Magazine magazine)
+        {
+            return (magazine = Magazines.Find(m => m.Title == title)) != null;
+        }
+
+
     }
-    
+
 }

@@ -28,7 +28,8 @@ namespace Periodicals
 
         private static void Main(string[] args)
         {
-            var subscriptions = CsvParser.ProccessCsvToSubscriptions(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
+            var lines = CsvParser.CsvToLines(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
+            var subscriptions = CsvParser.LinesToSubscriptions(MagazineService, lines);
             SubscriptionService.AddSubscription(subscriptions);
             Menu();
         }

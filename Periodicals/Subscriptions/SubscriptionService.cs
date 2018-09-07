@@ -24,7 +24,7 @@ namespace Periodicals.Subscriptions
 
         public void AddSubscription(IEnumerable<Subscription> subscriptions)
         {
-            subscriptions.ToList().ForEach(s => Subscriptions.Add(new Subscription(s.User, s.Magazine, s.StartDate, s.LastPaid)));
+            subscriptions.ToList().ForEach(s => Subscriptions.Add(s));
         }
 
         public void ShowFailedToPayCustomers()

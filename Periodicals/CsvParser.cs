@@ -13,20 +13,24 @@ namespace Periodicals
 {
     public class CsvParser
     {
-        public static List<Subscription> ProccessCsvToSubscriptions(string path)
+        public static List<string> CsvToLines(string path)
         {
-            var lines = File.ReadAllLines(path).ToList();
+            return File.ReadAllLines(path).ToList();
+        }
+
+        public static List<Subscription> LinesToSubscriptions(MagazineService magazineService, List<string> lines)
+        {
             var subscriptions = new List<Subscription>();
             foreach (var line in lines)
             {
-                if (TryFormatLinesToSubscription(line, out var newSubscription))
+                if (TryCreateSubscriptionFromLine(magazineService, line, out var newSubscription))
                     subscriptions.Add(newSubscription);
             }
 
             return subscriptions;
         }
 
-        public static bool TryFormatLinesToSubscription(string line, out Subscription subscription)
+        public static bool TryCreateSubscriptionFromLine(MagazineService magazineService,string line, out Subscription subscription)
         {
             var newLines = line.Split(',').ToList();
             if (DateTime.TryParse(newLines.Last(), out _))
@@ -38,10 +42,10 @@ namespace Periodicals
                 }
                 var user = new User(newLines[0]);
                 var title = newLines[1];
-                var magazine = Program.MagazineService.Magazines.Find(m => m.Title == title);
+                var magazine = title;
                 var startDate = DateTime.Parse(newLines[2]);
                 var lastPaid = DateTime.Parse(newLines[3]);
-                subscription = new Subscription(user, magazine, startDate, lastPaid);
+                subscription = new Subscription(magazineService, user, magazine, startDate, lastPaid);
                 return true;
             }
 

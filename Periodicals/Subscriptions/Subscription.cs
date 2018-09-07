@@ -12,9 +12,16 @@ namespace Periodicals.Subscriptions
         public DateTime EndDate { get; private set; }
         public DateTime LastPaid { get; private set; }
 
-        public Subscription(User user, Magazine magazine, DateTime startDate, DateTime lastPaid)
+        //TODO: Record none existing magazines
+        public Subscription(MagazineService magazineService, User user, string magazineTitle, DateTime startDate, DateTime lastPaid)
         {
             User = user;
+            if (!magazineService.MagazineExists(magazineTitle, out var magazine))
+            {
+                Magazine = new Magazine(magazineTitle, 0);
+                magazineService.AddMagazine(Magazine);
+            }
+
             Magazine = magazine;
             StartDate = startDate;
             LastPaid = lastPaid;
