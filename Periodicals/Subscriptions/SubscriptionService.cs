@@ -43,6 +43,7 @@ namespace Periodicals.Subscriptions
             foreach (var subscription in failedToPaySubscriptions)
             {
                 Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Magazine.Title}\n" +
+                                  $"      Subscription Started: {subscription.StartDate.ToShortDateString()}\n" +
                                   $"      Last paid date: {subscription.LastPaid.ToShortDateString()}\n" +
                                   $"      Subscription end date: {subscription.EndDate.ToShortDateString()}\n");
             }
