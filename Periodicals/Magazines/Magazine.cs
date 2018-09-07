@@ -8,6 +8,7 @@ namespace Periodicals.Magazines
 {
     public class Magazine
     {
+        private readonly int Id;
         public string Title { get; private set; }
         public int Price { get; private set; }
 

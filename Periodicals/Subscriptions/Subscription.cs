@@ -6,6 +6,7 @@ namespace Periodicals.Subscriptions
 {
     public class Subscription
     {
+        private readonly int Id;
         public User User { get; private set; }
         public Magazine Magazine { get; private set; }
         public DateTime StartDate { get; private set; }
