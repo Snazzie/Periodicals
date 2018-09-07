@@ -11,21 +11,25 @@ using Periodicals.Users;
 
 namespace Periodicals
 {
+
     public class Program
     {
-        private static MagazineService MagazineService => new MagazineService(new List<Magazine>
+        public static MagazineService MagazineService => new MagazineService(new List<Magazine>
         {
             new Magazine("Dogs Monthly", 399),
             new Magazine("Beekeeper", 249),
             new Magazine("Rock'n'Bass", 500),
             new Magazine("Amiga Gamer", 169),
-            new Magazine("\"Snow, Ice and You\"", 749)});
+            new Magazine("\"Snow, Ice and You\"", 749)
+
+        });
 
         public static SubscriptionService SubscriptionService { get; set; } = new SubscriptionService(MagazineService.Magazines);
 
         private static void Main(string[] args)
         {
-            ProccessCsv(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
+            var subscriptions = CsvParser.ProccessCsvToSubscriptions(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
+            SubscriptionService.AddSubscription(subscriptions);
             Menu();
         }
 
@@ -67,36 +71,6 @@ namespace Periodicals
                         break;
                 }
                 Console.Clear();
-            }
-        }
-
-        static void ProccessCsv(string path)
-        {
-            var lines = File.ReadAllLines(path);
-            var skipFirstLine = true;
-            foreach (var line in lines)
-            {
-                if (skipFirstLine)
-                {
-                    skipFirstLine = false;
-                    continue;
-                }
-                var newLines = line.Split(',').ToList();
-                if (newLines.Count > 4)
-                {
-                    newLines[1] += "," + newLines[2];
-                    newLines.RemoveAt(2);
-                }
-
-                var user = new User(newLines[0]);
-                var title = newLines[1];
-
-                var magazine = MagazineService.Magazines.Find(m => m.Title == title);
-                var startDate = DateTime.Parse(newLines[2]);
-                var lastPaid = DateTime.Parse(newLines[3]);
-
-                SubscriptionService.AddSubscription(user, magazine, startDate, lastPaid);
-
             }
         }
     }
