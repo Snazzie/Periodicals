@@ -35,7 +35,7 @@ namespace Periodicals.Subscriptions
 
             foreach (var subscription in GetFailedToPaySubscriptions())
             {
-                Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Product.Title}\n" +
+                Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Product.Title} [{subscription.Product.GetType().Name}]\n" +
                                   $"      Subscription Started: {subscription.StartDate.ToShortDateString()}\n" +
                                   $"      Last paid date: {subscription.LastPaid.ToShortDateString()}\n" +
                                   $"      Subscription end date: {subscription.EndDate.ToShortDateString()}\n");
@@ -78,7 +78,9 @@ namespace Periodicals.Subscriptions
         }
         public void ShowRevenueOfAllProductsInYear(int year, Type type = null)
         {
-            Console.WriteLine($"# Monthly Revenue in {year} for all magazines");
+            var revenueFor = type == null ? "all products" : type.Name;
+            
+            Console.WriteLine($"# Monthly Revenue in {year} for {revenueFor}");
             var productsMonthlyRevenue = new Dictionary<Product, List<float>>();
             if (type != null)
                 foreach (var product in Products.FindAll(p => p.GetType() == type))
@@ -94,7 +96,7 @@ namespace Periodicals.Subscriptions
 
             foreach (var productMonthlyRevenue in productsMonthlyRevenue)
             {
-                Console.WriteLine($"--{productMonthlyRevenue.Key.Title} -> Sum: ${productMonthlyRevenue.Value.Sum()}");
+                Console.WriteLine($"[{productMonthlyRevenue.Key.GetType().Name}] {productMonthlyRevenue.Key.Title} -> Sum: ${productMonthlyRevenue.Value.Sum()}");
 
                 for (int month = 1; month <= 12; month++)
                 {
