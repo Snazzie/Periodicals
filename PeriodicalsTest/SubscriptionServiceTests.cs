@@ -51,15 +51,16 @@ namespace PeriodicalsTest
             Assert.AreEqual((magazine2.Price / 12) * (9 + 12), rev2.Sum());
         }
 
-        [TestCase(0, -1, ExpectedResult = true)]  // oneMonthBefore
-        [TestCase(-1, 0, ExpectedResult = true)]  // oneYearBefore
-        [TestCase(0, 1, ExpectedResult = false)]  // oneMonthAfter
-        [TestCase(1, 0, ExpectedResult = false)]  // oneYearAfter
-        public bool IsFailedToPay_ReturnsCorrectly(int yearOffset, int monthOffset)
+        [TestCase(0, -1, "01/02/2018", ExpectedResult = true)]  // oneMonthBefore
+        [TestCase(-1, 0, "01/02/2018", ExpectedResult = true)]  // oneYearBefore
+        [TestCase(0, 0, "01/02/2018", ExpectedResult = false)]  // sameDay
+        [TestCase(0, 1, "01/02/2018", ExpectedResult = false)]  // oneMonthAfter
+        [TestCase(1, 0, "01/02/2018", ExpectedResult = false)]  // oneYearAfter
+        public bool IsFailedToPay_ReturnsCorrectly(int yearOffset, int monthOffset, string todayDate)
         {
-            var subscriptionEndDate = DateTime.Today.AddYears(yearOffset).AddMonths(monthOffset);
+            var subscriptionEndDate = Convert.ToDateTime(todayDate).AddYears(yearOffset).AddMonths(monthOffset);
 
-            return SubscriptionService.IsFailedToPay(subscriptionEndDate, DateTime.Today);
+            return SubscriptionService.IsFailedToPay(subscriptionEndDate, Convert.ToDateTime(todayDate));
         }
     }
 }
