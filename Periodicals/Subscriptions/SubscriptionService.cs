@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Periodicals.Magazines;
+using Periodicals.Products;
 using Periodicals.Users;
 
 namespace Periodicals.Subscriptions
@@ -9,12 +9,13 @@ namespace Periodicals.Subscriptions
     public class SubscriptionService
     {
         public List<Subscription> Subscriptions { get; set; }
-        private List<Magazine> Magazines { get; set; }
+        private List<Product> Products { get; set; }
 
-        public SubscriptionService(List<Magazine> magazines)
+        public SubscriptionService(List<Product> products)
         {
             Subscriptions = new List<Subscription>();
-            Magazines = magazines;
+            Products = products;
+
         }
 
         public void AddSubscription(Subscription subscription)
@@ -31,10 +32,10 @@ namespace Periodicals.Subscriptions
         {
             Console.WriteLine($"# Users who have failed to pay as of today ({DateTime.Today.ToShortDateString()}): \n");
 
-            
+
             foreach (var subscription in GetFailedToPaySubscriptions())
             {
-                Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Magazine.Title}\n" +
+                Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Product.Title}\n" +
                                   $"      Subscription Started: {subscription.StartDate.ToShortDateString()}\n" +
                                   $"      Last paid date: {subscription.LastPaid.ToShortDateString()}\n" +
                                   $"      Subscription end date: {subscription.EndDate.ToShortDateString()}\n");
@@ -59,18 +60,18 @@ namespace Periodicals.Subscriptions
         public static bool IsFailedToPay(DateTime subscriptionEndDate, DateTime today)
         {
             var startOfThisMonth = Convert.ToDateTime($"1/{today.Month}/{today.Year}");
-            return subscriptionEndDate < startOfThisMonth ;
+            return subscriptionEndDate < startOfThisMonth;
         }
 
-        public List<float> GetMagazineMonthlyRevenueInYear(Magazine magazine, int year)
+        public List<float> GetMagazineMonthlyRevenueInYear(Product product, int year)
         {
-            var subs = Subscriptions.FindAll(s => s.Magazine.Title == magazine.Title && s.StartDate.Year <= year && year <= s.EndDate.Year);
+            var subs = Subscriptions.FindAll(s => s.Product.Title == product.Title && s.StartDate.Year <= year && year <= s.EndDate.Year);
             var revs = new List<float>();
             for (int month = 1; month <= 12; month++)
             {
                 var checkingMonth = Convert.ToDateTime($"01/{month}/{year}");
                 var subsInMonth = subs.FindAll(s => s.StartDate <= checkingMonth && checkingMonth <= s.EndDate);
-                revs.Add(subsInMonth.Count * (magazine.Price / 12));
+                revs.Add(subsInMonth.Count * (product.Price / 12));
             }
             return revs;
         }
@@ -78,10 +79,10 @@ namespace Periodicals.Subscriptions
         public void ShowRevenueOfAllMagazinesInYear(int year)
         {
             Console.WriteLine($"# Monthly Revenue in {year} for all magazines");
-            var magazinesMonthlyRevenue = new Dictionary<Magazine, List<float>>();
-            foreach (var magazine in Magazines)
+            var magazinesMonthlyRevenue = new Dictionary<Product, List<float>>();
+            foreach (var product in Products)
             {
-                magazinesMonthlyRevenue.Add(magazine, GetMagazineMonthlyRevenueInYear(magazine, year));
+                magazinesMonthlyRevenue.Add(product, GetMagazineMonthlyRevenueInYear(product, year));
             }
 
             foreach (var magazineMonthlyRevenue in magazinesMonthlyRevenue)

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Periodicals.Magazines;
+using Periodicals.Products;
 using Periodicals.Subscriptions;
 using Periodicals.Users;
 
@@ -14,22 +14,25 @@ namespace Periodicals
 
     public class Program
     {
-        public static MagazineService MagazineService => new MagazineService(new List<Magazine>
+        public static ProductService ProductService => new ProductService(new List<Product>
         {
             new Magazine("Dogs Monthly", 399),
             new Magazine("Beekeeper", 249),
             new Magazine("Rock'n'Bass", 500),
             new Magazine("Amiga Gamer", 169),
-            new Magazine("\"Snow, Ice and You\"", 749)
+            new Magazine("\"Snow, Ice and You\"", 749),
+            new Newspaper("Dunthorpe Daily", 5999),
+            new Newspaper("The Bugle",7249),
+            new Newspaper("Plympton Gazette", 3800)
         });
 
-        public static SubscriptionService SubscriptionService { get; set; } = new SubscriptionService(MagazineService.Magazines);
+        public static SubscriptionService SubscriptionService { get; set; } = new SubscriptionService(ProductService.Products);
 
         private static void Main(string[] args)
         {
-            var lines = CsvParser.CsvToLines(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
-            var subscriptions = CsvParser.LinesToSubscriptions(MagazineService, lines);
-            SubscriptionService.AddSubscription(subscriptions);
+            var magazineLines = CsvParser.CsvToLines(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
+            var magazineSubscriptions = CsvParser.LinesToSubscriptions(ProductService, typeof(Magazine), magazineLines);
+            SubscriptionService.AddSubscription(magazineSubscriptions);
             Menu();
         }
 
@@ -40,7 +43,7 @@ namespace Periodicals
             while (!exit)
             {
                 Console.Write("#Menu \n" +
-                              "1. Get all magazine revenue in year\n" +
+                              "1. Get all product revenue in year\n" +
                               "2. See which customers have failed to pay\n" +
                               "0. Exit\n\n" +
                               "Use your number key to select one. \n");
@@ -49,7 +52,7 @@ namespace Periodicals
                 {
                     case '1':
                         Console.Clear();
-                        Console.Write("Get all magazine revenue in year: ");
+                        Console.Write("Get all product revenue in year: ");
                         if (int.TryParse(Console.ReadLine(), out int year))
                         {
                             SubscriptionService.ShowRevenueOfAllMagazinesInYear(year);

@@ -1,5 +1,5 @@
 ﻿using System;
-using Periodicals.Magazines;
+using Periodicals.Products;
 using Periodicals.Users;
 
 namespace Periodicals.Subscriptions
@@ -8,22 +8,25 @@ namespace Periodicals.Subscriptions
     {
         private readonly int Id;
         public User User { get; private set; }
-        public Magazine Magazine { get; private set; }
+        public Product Product { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
         public DateTime LastPaid { get; private set; }
 
         //TODO: Record none existing magazines
-        public Subscription(MagazineService magazineService, User user, string magazineTitle, DateTime startDate, DateTime lastPaid)
+        public Subscription(ProductService productService, Type type, User user, string title, DateTime startDate, DateTime lastPaid)
         {
             User = user;
-            if (!magazineService.MagazineExists(magazineTitle, out var magazine))
+            if (!productService.ProductExists(title, out var product))
             {
-                Magazine = new Magazine(magazineTitle, 0);
-                magazineService.AddMagazine(Magazine);
+                if (type == typeof(Magazine))
+                    Product = new Magazine(title, 0);
+                else if (type == typeof(Newspaper))
+                    Product = new Newspaper(title, 0);
+                productService.AddProduct(Product);
             }
 
-            Magazine = magazine;
+            Product = product;
             StartDate = startDate;
             LastPaid = lastPaid;
             EndDate = new DateTime(lastPaid.Year + 1, startDate.Month, 1).AddDays(-1);

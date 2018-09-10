@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Periodicals.Magazines;
+using Periodicals.Products;
 
 namespace PeriodicalsTest
 {
     [TestFixture]
     public class MagazineServiceTests
     {
-        public MagazineService MagazineService;
+        public ProductService ProductService;
 
         [SetUp]
         public void SetUp()
         {
-            MagazineService = new MagazineService(new List<Magazine>
+            ProductService = new ProductService(new List<Product>
             {
                 new Magazine("Dogs Monthly", 399),
                 new Magazine("Beekeeper", 249),
@@ -28,7 +28,7 @@ namespace PeriodicalsTest
         [TestCase("Beekeeper", ExpectedResult = true)]
         public bool MagazineExists_ReturnsCorrectly(string title)
         {
-            return MagazineService.MagazineExists(title, out _);
+            return ProductService.ProductExists(title, out _);
         }
     }
 }
