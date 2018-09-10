@@ -59,8 +59,9 @@ namespace Periodicals.Subscriptions
 
         public static bool IsFailedToPay(DateTime subscriptionEndDate, DateTime today)
         {
-            var startOfThisMonth = Convert.ToDateTime($"1/{today.Month}/{today.Year}");
-            return subscriptionEndDate < startOfThisMonth;
+            //var startOfThisMonth = Convert.ToDateTime($"1/{today.Month}/{today.Year}");    possibly not needed
+
+            return subscriptionEndDate < today;
         }
 
         public List<float> GetProductMonthlyRevenueInYear(Product product, int year)
