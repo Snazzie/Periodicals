@@ -50,5 +50,16 @@ namespace PeriodicalsTest
             Assert.AreEqual((magazine.Price / 12) * 12, rev.Sum());
             Assert.AreEqual((magazine2.Price / 12) * (9 + 12), rev2.Sum());
         }
+
+        [TestCase(0, -1, ExpectedResult = true)]  // oneMonthBefore
+        [TestCase(-1, 0, ExpectedResult = true)]  // oneYearBefore
+        [TestCase(0, 1, ExpectedResult = false)]  // oneMonthAfter
+        [TestCase(1, 0, ExpectedResult = false)]  // oneYearAfter
+        public bool IsFailedToPay_ReturnsCorrectly(int yearOffset, int monthOffset)
+        {
+            var subscriptionEndDate = DateTime.Today.AddYears(yearOffset).AddMonths(monthOffset);
+
+            return SubscriptionService.IsFailedToPay(subscriptionEndDate, DateTime.Today);
+        }
     }
 }

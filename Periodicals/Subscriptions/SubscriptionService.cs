@@ -30,23 +30,36 @@ namespace Periodicals.Subscriptions
         public void ShowFailedToPayCustomers()
         {
             Console.WriteLine($"# Users who have failed to pay as of today ({DateTime.Today.ToShortDateString()}): \n");
-            var failedToPaySubscriptions = new List<Subscription>();
 
-            foreach (var subscription in Subscriptions)
-            {
-                if (subscription.EndDate < DateTime.Today)
-                {
-                    failedToPaySubscriptions.Add(subscription);
-                }
-            }
-
-            foreach (var subscription in failedToPaySubscriptions)
+            
+            foreach (var subscription in GetFailedToPaySubscriptions())
             {
                 Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Magazine.Title}\n" +
                                   $"      Subscription Started: {subscription.StartDate.ToShortDateString()}\n" +
                                   $"      Last paid date: {subscription.LastPaid.ToShortDateString()}\n" +
                                   $"      Subscription end date: {subscription.EndDate.ToShortDateString()}\n");
             }
+        }
+
+        public List<Subscription> GetFailedToPaySubscriptions()
+        {
+            var failedToPaySubscriptions = new List<Subscription>();
+
+            foreach (var subscription in Subscriptions)
+            {
+                if (IsFailedToPay(subscription.EndDate, DateTime.Today))
+                {
+                    failedToPaySubscriptions.Add(subscription);
+                }
+            }
+
+            return failedToPaySubscriptions;
+        }
+
+        public static bool IsFailedToPay(DateTime subscriptionEndDate, DateTime today)
+        {
+            var startOfThisMonth = Convert.ToDateTime($"1/{today.Month}/{today.Year}");
+            return subscriptionEndDate < startOfThisMonth ;
         }
 
         public List<float> GetMagazineMonthlyRevenueInYear(Magazine magazine, int year)
