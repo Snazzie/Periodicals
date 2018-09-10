@@ -21,7 +21,6 @@ namespace Periodicals
             new Magazine("Rock'n'Bass", 500),
             new Magazine("Amiga Gamer", 169),
             new Magazine("\"Snow, Ice and You\"", 749)
-
         });
 
         public static SubscriptionService SubscriptionService { get; set; } = new SubscriptionService(MagazineService.Magazines);
