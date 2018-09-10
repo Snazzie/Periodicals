@@ -42,8 +42,8 @@ namespace PeriodicalsTest
 
 
             // ACT
-            List<float> rev = subscriptionService.GetMagazineMonthlyRevenueInYear(magazine, year);
-            List<float> rev2 = subscriptionService.GetMagazineMonthlyRevenueInYear(magazine2, year);
+            List<float> rev = subscriptionService.GetProductMonthlyRevenueInYear(magazine, year);
+            List<float> rev2 = subscriptionService.GetProductMonthlyRevenueInYear(magazine2, year);
 
             // ASSERT
             Assert.AreEqual((magazine.Price / 12) * 12, rev.Sum());

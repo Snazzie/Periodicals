@@ -21,7 +21,7 @@ namespace Periodicals.Subscriptions
             {
                 if (type == typeof(Magazine))
                     Product = new Magazine(title, 0);
-                else if (type == typeof(Newspaper))
+                else if (type == typeof(Magazine))
                     Product = new Newspaper(title, 0);
                 productService.AddProduct(Product);
             }

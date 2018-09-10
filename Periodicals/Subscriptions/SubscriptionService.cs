@@ -63,7 +63,7 @@ namespace Periodicals.Subscriptions
             return subscriptionEndDate < startOfThisMonth;
         }
 
-        public List<float> GetMagazineMonthlyRevenueInYear(Product product, int year)
+        public List<float> GetProductMonthlyRevenueInYear(Product product, int year)
         {
             var subs = Subscriptions.FindAll(s => s.Product.Title == product.Title && s.StartDate.Year <= year && year <= s.EndDate.Year);
             var revs = new List<float>();
@@ -75,23 +75,29 @@ namespace Periodicals.Subscriptions
             }
             return revs;
         }
-
-        public void ShowRevenueOfAllMagazinesInYear(int year)
+        public void ShowRevenueOfAllProductsInYear(int year, Type type = null)
         {
             Console.WriteLine($"# Monthly Revenue in {year} for all magazines");
-            var magazinesMonthlyRevenue = new Dictionary<Product, List<float>>();
-            foreach (var product in Products)
-            {
-                magazinesMonthlyRevenue.Add(product, GetMagazineMonthlyRevenueInYear(product, year));
-            }
+            var productsMonthlyRevenue = new Dictionary<Product, List<float>>();
+            if (type != null)
+                foreach (var product in Products.FindAll(p => p.GetType() == type))
+                {
+                    productsMonthlyRevenue.Add(product, GetProductMonthlyRevenueInYear(product, year));
+                }
+            else
+                foreach (var product in Products)
+                {
+                    productsMonthlyRevenue.Add(product, GetProductMonthlyRevenueInYear(product, year));
+                }
 
-            foreach (var magazineMonthlyRevenue in magazinesMonthlyRevenue)
+
+            foreach (var productMonthlyRevenue in productsMonthlyRevenue)
             {
-                Console.WriteLine($"--{magazineMonthlyRevenue.Key.Title} -> Sum: ${magazineMonthlyRevenue.Value.Sum()}");
+                Console.WriteLine($"--{productMonthlyRevenue.Key.Title} -> Sum: ${productMonthlyRevenue.Value.Sum()}");
 
                 for (int month = 1; month <= 12; month++)
                 {
-                    Console.WriteLine($"   month:{month} = ${magazineMonthlyRevenue.Value[month - 1]}");
+                    Console.WriteLine($"   month:{month} = ${productMonthlyRevenue.Value[month - 1]}");
                 }
             }
 

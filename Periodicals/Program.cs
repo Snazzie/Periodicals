@@ -52,10 +52,25 @@ namespace Periodicals
                 {
                     case '1':
                         Console.Clear();
-                        Console.Write("Get all product revenue in year: ");
+                        Console.Write("Get product revenue in year: ");
                         if (int.TryParse(Console.ReadLine(), out int year))
                         {
-                            SubscriptionService.ShowRevenueOfAllMagazinesInYear(year);
+                            Console.Write("Type in the product type you would like to filter. eg: Magazine, Newspaper \n" +
+                                          "Leave blank for all.\n" +
+                                          "Filter:");
+                            var productTypeFilter = Console.ReadLine();
+                            Type productType = null;
+                            if (productTypeFilter != "")
+                            {
+                                productType = Type.GetType(typeof(Product).Namespace + "." + productTypeFilter);
+                                if (productType == null)
+                                {
+                                    Console.WriteLine($"{productTypeFilter} was not found!");
+                                    Console.ReadKey();
+                                    break;
+                                }
+                            }
+                            SubscriptionService.ShowRevenueOfAllProductsInYear(year, productType);
                         }
                         else
                         {
