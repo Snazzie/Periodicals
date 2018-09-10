@@ -50,17 +50,17 @@ namespace PeriodicalsTest
             Assert.AreEqual((magazine.Price / 12) * 12, rev.Sum());
             Assert.AreEqual((magazine2.Price / 12) * (9 + 12), rev2.Sum());
         }
-
-        [TestCase(0, -1, "01/02/2018", ExpectedResult = true)]  // oneMonthBefore
-        [TestCase(-1, 0, "01/02/2018", ExpectedResult = true)]  // oneYearBefore
-        [TestCase(0, 0, "01/02/2018", ExpectedResult = false)]  // sameDay
-        [TestCase(0, 1, "01/02/2018", ExpectedResult = false)]  // oneMonthAfter
-        [TestCase(1, 0, "01/02/2018", ExpectedResult = false)]  // oneYearAfter
-        public bool IsFailedToPay_ReturnsCorrectly(int yearOffset, int monthOffset, string todayDate)
+        
+        [TestCase(0, -1, "01/02/2018", ExpectedResult = true)]
+        [TestCase(-1, 0, "01/02/2018", ExpectedResult = true)]
+        [TestCase(0, 0, "01/02/2018", ExpectedResult = true)]  
+        [TestCase(0, 1, "01/02/2018", ExpectedResult = false)]
+        [TestCase(1, 0, "01/02/2018", ExpectedResult = false)]
+        public bool IsFailedToPay_ReturnsCorrectly(int yearOffset, int monthOffset, string firstDayOfMonth)
         {
-            var subscriptionEndDate = Convert.ToDateTime(todayDate).AddYears(yearOffset).AddMonths(monthOffset);
+            var subscriptionEndDate = Convert.ToDateTime(firstDayOfMonth).AddYears(yearOffset).AddMonths(monthOffset).AddDays(-1); // always set to end of last month
 
-            return SubscriptionService.IsFailedToPay(subscriptionEndDate, Convert.ToDateTime(todayDate));
+            return SubscriptionService.IsFailedToPay(subscriptionEndDate, Convert.ToDateTime(firstDayOfMonth));
         }
     }
 }
