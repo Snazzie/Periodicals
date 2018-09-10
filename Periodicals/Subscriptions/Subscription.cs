@@ -17,7 +17,7 @@ namespace Periodicals.Subscriptions
         public Subscription(ProductService productService, Type type, User user, string title, DateTime startDate, DateTime lastPaid)
         {
             User = user;
-            if (!productService.ProductExists(title, out var product))
+            if (!productService.ProductExists(title, type, out var product))
             {
                 if (type == typeof(Magazine))
                     Product = new Magazine(title, 0);

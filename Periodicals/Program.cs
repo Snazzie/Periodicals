@@ -30,9 +30,12 @@ namespace Periodicals
 
         private static void Main(string[] args)
         {
-            var magazineLines = CsvParser.CsvToLines(@"C:\Users\aaron.cooper\Documents\csvExport.txt");
-            var magazineSubscriptions = CsvParser.LinesToSubscriptions(ProductService, typeof(Magazine), magazineLines);
-            SubscriptionService.AddSubscription(magazineSubscriptions);
+            var magazineLines = CsvParser.CsvToLines(@"C:\Users\aaron.cooper\Documents\csvMagazineExport.txt");
+            var magazinesToImport = CsvParser.LinesToSubscriptions(ProductService, typeof(Magazine), magazineLines);
+            var newspaperLines = CsvParser.CsvToLines(@"C:\Users\aaron.cooper\Documents\csvNewspaperExport.txt");
+            var newspapersToImport =  CsvParser.LinesToSubscriptions(ProductService, typeof(Newspaper), newspaperLines);
+            SubscriptionService.AddSubscription(magazinesToImport);
+            SubscriptionService.AddSubscription(newspapersToImport);
             Menu();
         }
 

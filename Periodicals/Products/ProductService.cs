@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 namespace Periodicals.Products
 {
@@ -25,9 +26,9 @@ namespace Periodicals.Products
             magazines.ToList().ForEach(m => Products.Add(m));
         }
 
-        public bool ProductExists(string title, out Product product)
+        public bool ProductExists(string title, Type type, out Product product)
         {
-            return (product = Products.Find(m => m.Title == title)) != null;
+            return (product = Products.Find(m => m.GetType() == type && m.Title == title)) != null;
         }
 
 
