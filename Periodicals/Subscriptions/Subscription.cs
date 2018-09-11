@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Periodicals.Products;
 using Periodicals.Users;
 
@@ -14,7 +14,7 @@ namespace Periodicals.Subscriptions
         public DateTime LastPaid { get; private set; }
 
         //TODO: Record none existing magazines
-        public Subscription(ProductService productService, Type type, User user, string title, DateTime startDate, DateTime lastPaid)
+        public Subscription(ProductService productService, Type type, User user, string title, DateTime startDate, DateTime lastPaid, int id = 0)
         {
             User = user;
             if (!productService.ProductExists(title, type, out var product))
