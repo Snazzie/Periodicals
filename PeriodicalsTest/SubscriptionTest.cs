@@ -59,5 +59,21 @@ namespace PeriodicalsTest
             Assert.That(sub.LastPaid, Is.EqualTo(lastPaidDate));
             Assert.That(sub.EndDate, Is.Not.Null);
         }
+
+        [TestCase("20/09/2006", "04/08/2017", typeof(Magazine), ExpectedResult = "31/08/2018")]
+        [TestCase("20/09/2006", "04/08/2017", typeof(Newspaper), ExpectedResult = "20/09/2018")]
+        public string CalculateEndDate_CorrectlyCalculatesSubscriptionEndDate(string startDate, string lastPaidDate, Type type)
+        {
+            //ARRANGE
+            var user = new User("Jeff");
+            var magazine = new Magazine("blah", 0);
+
+            //ACT
+            var sub = new Subscription(ProductService, type, user, magazine.Title, Convert.ToDateTime(startDate), Convert.ToDateTime(lastPaidDate));
+
+            //ASSERT
+            return sub.EndDate.ToShortDateString();
+        }
+
     }
 }

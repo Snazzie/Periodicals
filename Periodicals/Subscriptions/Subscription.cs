@@ -30,7 +30,7 @@ namespace Periodicals.Subscriptions
             EndDate = CalculateEndDate(type, startDate, lastPaid);
         }
 
-        private DateTime CalculateEndDate(Type type, DateTime startDate, DateTime lastPaid)
+        public DateTime CalculateEndDate(Type type, DateTime startDate, DateTime lastPaid)
         {
             if (type == typeof(Magazine))
                return new DateTime(lastPaid.Year + 1, startDate.Month, 1).AddDays(-1);
@@ -44,7 +44,7 @@ namespace Periodicals.Subscriptions
         {
             if (type == typeof(Magazine))
                return new Magazine(title, 0);
-            if (type == typeof(Magazine))
+            if (type == typeof(Newspaper))
                return new Newspaper(title, 0);
             throw new Exception();
         }
