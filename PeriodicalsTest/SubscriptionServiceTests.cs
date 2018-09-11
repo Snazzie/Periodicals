@@ -20,6 +20,23 @@ namespace PeriodicalsTest
         }
 
         [Test]
+        public void CreateSubscriptionWithExistingProduct_CreateSuccess()
+        {
+            var user = new User("Jeff");
+            var type = typeof(Magazine);
+            var startDate = Convert.ToDateTime("01/09/2014");
+            var lastPaidDate = Convert.ToDateTime("31/08/2017");
+            var magazine = new Magazine("blah", 0);
+            ProductService.AddProduct(magazine);
+            var sub = new Subscription(ProductService, type, user, magazine.Title, startDate, lastPaidDate);
+
+            Assert.That(sub.User.Name, Is.EqualTo(user.Name));
+            Assert.That(sub.Product.GetType(), Is.EqualTo(type));
+            Assert.That(sub.Product.Title, Is.EqualTo(magazine.Title));
+            Assert.That(sub.StartDate, Is.EqualTo(startDate));
+            Assert.That(sub.EndDate, !Is.Empty);
+        }
+        [Test]
         public void GetMagazineMonthlyRevenueInYear_ReturnsCorrectMonthlyRevenues()
         {
             // ARRANGE
