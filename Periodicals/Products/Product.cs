@@ -2,7 +2,7 @@
 {
     public class Product
     {
-        private readonly int Id;
+        public int Id { get; internal set; }
         public string Title { get; internal set; }
         public int Price { get; internal set; }
     }
