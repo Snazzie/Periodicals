@@ -35,11 +35,12 @@ namespace PeriodicalsTest
         [TestCase("Joan Krook,\"HelloWorld\",20/01/2017,20/09/2017", ExpectedResult = true)]
         [TestCase("Joan Krook,\"Hello, World\",20/01/2017,20/09/2017", ExpectedResult = true)]
         //TODO: handle infinite amount of commas
-        public bool TryCreateSubscriptionFromLine_ReturnsSubscriptionForAllTypes(string line)
+        public bool TryCreateSubscriptionFromLine_SuccessfullyCreates(string line)
         {
             var res1 = CsvParser.TryCreateSubscriptionFromLine(ProductService, typeof(Magazine), line, out _);
             var res2 = CsvParser.TryCreateSubscriptionFromLine(ProductService, typeof(Newspaper), line, out _);
-            Assert.That(res1, Is.EqualTo(res2));
+
+            Assert.That(res1, Is.EqualTo(res2)); // both should be be created with no problem
             return res1;
         }
         [Test]

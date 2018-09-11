@@ -16,24 +16,37 @@ namespace Periodicals.Subscriptions
         //TODO: Record none existing magazines
         public Subscription(ProductService productService, Type type, User user, string title, DateTime startDate, DateTime lastPaid, int id = 0)
         {
-            User = user;
             if (!productService.ProductExists(title, type, out var product))
             {
-                if (type == typeof(Magazine))
-                    Product = new Magazine(title, 0);
-                else if (type == typeof(Magazine))
-                    Product = new Newspaper(title, 0);
-                productService.AddProduct(Product);
+                product = CreateProductFromType(type, title);
+                productService.AddProduct(product);
             }
 
+            User = user;
             Id = id;
             Product = product;
             StartDate = startDate;
             LastPaid = lastPaid;
+            EndDate = CalculateEndDate(type, startDate, lastPaid);
+        }
+
+        private DateTime CalculateEndDate(Type type, DateTime startDate, DateTime lastPaid)
+        {
             if (type == typeof(Magazine))
-                EndDate = new DateTime(lastPaid.Year + 1, startDate.Month, 1).AddDays(-1);
+               return new DateTime(lastPaid.Year + 1, startDate.Month, 1).AddDays(-1);
             if (type == typeof(Newspaper))
-                EndDate = new DateTime(lastPaid.Year, startDate.Month, startDate.Day).AddDays(365);
+               return new DateTime(lastPaid.Year, startDate.Month, startDate.Day).AddDays(365);
+
+            throw new Exception();
+        }
+
+        private Product CreateProductFromType(Type type, string title)
+        {
+            if (type == typeof(Magazine))
+               return new Magazine(title, 0);
+            if (type == typeof(Magazine))
+               return new Newspaper(title, 0);
+            throw new Exception();
         }
     }
 }

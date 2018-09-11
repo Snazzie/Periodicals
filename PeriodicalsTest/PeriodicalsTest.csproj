@@ -68,6 +68,7 @@
     <Compile Include="ProductServiceTests.cs" />
     <Compile Include="SubscriptionServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubscriptionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
