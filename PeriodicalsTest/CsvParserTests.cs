@@ -35,7 +35,7 @@ namespace PeriodicalsTest
         [TestCase("Joan Krook,\"HelloWorld\",20/01/2017,20/09/2017", ExpectedResult = true)]
         [TestCase("Joan Krook,\"Hello, World\",20/01/2017,20/09/2017", ExpectedResult = true)]
         //TODO: handle infinite amount of commas
-        public bool TryCreateSubscriptionFromLine_SuccessfullyCreates(string line)
+        public bool TryCreateSubscriptionFromLine_SuccessfullyCreatesForProducts(string line)
         {
             var res1 = CsvParser.TryCreateSubscriptionFromLine(ProductService, typeof(Magazine), line, out _);
             var res2 = CsvParser.TryCreateSubscriptionFromLine(ProductService, typeof(Newspaper), line, out _);
