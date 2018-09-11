@@ -27,27 +27,27 @@ namespace PeriodicalsTest
             var user = new User("Jeff");
             var user2 = new User("Geo");
             var magazine = new Magazine("mag", 500);
-            var magazine2 = new Magazine("haha", 400);
-            ProductService.AddProduct(new List<Product> { magazine, magazine2 });
+            var newspaper = new Newspaper("haha", 400);
+            ProductService.AddProduct(new List<Product> { magazine, newspaper });
             var subscriptionService = new SubscriptionService(ProductService.Products);
             subscriptionService.AddSubscription(new List<Subscription>()
             {
                 new Subscription(ProductService,typeof(Magazine), user, magazine.Title, Convert.ToDateTime("01/01/2017"),
                     Convert.ToDateTime("01/01/2018")),
-                new Subscription(ProductService, typeof(Magazine), user2, magazine2.Title, Convert.ToDateTime("01/04/2017"),
+                new Subscription(ProductService, typeof(Newspaper), user2, newspaper.Title, Convert.ToDateTime("01/04/2017"),
                     Convert.ToDateTime("01/04/2017")),
-                new Subscription(ProductService, typeof(Magazine), user, magazine2.Title, Convert.ToDateTime("01/09/2014"),
+                new Subscription(ProductService, typeof(Newspaper), user, newspaper.Title, Convert.ToDateTime("01/09/2014"),
                     Convert.ToDateTime("01/09/2017"))
             });
 
 
             // ACT
             List<float> rev = subscriptionService.GetProductMonthlyRevenueInYear(magazine, year);
-            List<float> rev2 = subscriptionService.GetProductMonthlyRevenueInYear(magazine2, year);
+            List<float> rev2 = subscriptionService.GetProductMonthlyRevenueInYear(newspaper, year);
 
             // ASSERT
             Assert.AreEqual((magazine.Price / 12) * 12, rev.Sum());
-            Assert.AreEqual((magazine2.Price / 12) * (9 + 12), rev2.Sum());
+            Assert.AreEqual((newspaper.Price / 12) * (9 + 12), rev2.Sum());
         }
         
         [TestCase(0, -1, "01/02/2018", ExpectedResult = true)]

@@ -76,6 +76,9 @@ namespace Periodicals.Subscriptions
             }
             return revs;
         }
+
+        /// <param name="year"></param>
+        /// <param name="type">null for all products</param>
         public void ShowRevenueOfAllProductsInYear(int year, Type type = null)
         {
             var revenueFor = type == null ? "all products" : type.Name;

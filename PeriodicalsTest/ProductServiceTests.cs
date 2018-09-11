@@ -6,7 +6,7 @@ using Periodicals.Products;
 namespace PeriodicalsTest
 {
     [TestFixture]
-    public class MagazineServiceTests
+    public class ProductServiceTests
     {
         public ProductService ProductService;
 

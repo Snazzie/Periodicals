@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsvParserTests.cs" />
-    <Compile Include="MagazineServiceTests.cs" />
+    <Compile Include="ProductServiceTests.cs" />
     <Compile Include="SubscriptionServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

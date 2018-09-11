@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Periodicals.Products;
 using Periodicals.Users;
 
@@ -26,13 +26,14 @@ namespace Periodicals.Subscriptions
                 productService.AddProduct(Product);
             }
 
+            Id = id;
             Product = product;
             StartDate = startDate;
             LastPaid = lastPaid;
-            if(type == typeof(Magazine))
-            EndDate = new DateTime(lastPaid.Year + 1, startDate.Month, 1).AddDays(-1);
-            if(type == typeof(Newspaper))
-                EndDate = new DateTime(lastPaid.Year, startDate.Month,startDate.Day).AddDays(365);
+            if (type == typeof(Magazine))
+                EndDate = new DateTime(lastPaid.Year + 1, startDate.Month, 1).AddDays(-1);
+            if (type == typeof(Newspaper))
+                EndDate = new DateTime(lastPaid.Year, startDate.Month, startDate.Day).AddDays(365);
         }
     }
 }
