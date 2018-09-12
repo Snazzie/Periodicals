@@ -84,7 +84,8 @@ namespace Periodicals
                         if (result == DialogResult.OK)
                         {
                             var subscriptionLines = CsvParser.CsvToLines(openFileDialog.FileName);
-                            Console.Write("Product type: ");
+                            Console.Write("Available product types: Magazine, Newspaper\n" +
+                                          "Import product type: ");
                             var typeInput = Console.ReadLine();
                             var type = Type.GetType(typeof(Product).Namespace + "." + typeInput);
                             if (type == null)
