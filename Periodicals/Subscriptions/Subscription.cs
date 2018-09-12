@@ -37,7 +37,7 @@ namespace Periodicals.Subscriptions
             if (type == typeof(Newspaper))
                return new DateTime(lastPaid.Year, startDate.Month, startDate.Day).AddDays(365);
 
-            throw new Exception();
+            throw new Exception("Type doesnt exist");
         }
 
         private Product CreateProductFromType(Type type, string title)
@@ -46,7 +46,7 @@ namespace Periodicals.Subscriptions
                return new Magazine(title, 0);
             if (type == typeof(Newspaper))
                return new Newspaper(title, 0);
-            throw new Exception();
+            throw new Exception("Type doesnt exist");
         }
     }
 }

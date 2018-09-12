@@ -15,7 +15,6 @@ namespace Periodicals.Subscriptions
         {
             Subscriptions = new List<Subscription>();
             Products = products;
-
         }
 
         public void AddSubscription(Subscription subscription)
@@ -64,7 +63,7 @@ namespace Periodicals.Subscriptions
                 return subscriptionEndDate <= today;
             if (type == typeof(Newspaper))
                 return subscriptionEndDate < today;
-            throw new Exception();
+            throw new Exception("Type doesnt exist");
         }
 
         public List<float> GetProductMonthlyRevenueInYear(Product product, int year)
@@ -85,9 +84,9 @@ namespace Periodicals.Subscriptions
         public void ShowRevenueOfAllProductsInYear(int year, Type type = null)
         {
             var revenueFor = type == null ? "all products" : type.Name;
-
             Console.WriteLine($"# Monthly Revenue in {year} for {revenueFor}");
             var productsMonthlyRevenue = new Dictionary<Product, List<float>>();
+
             if (type != null)
                 foreach (var product in Products.FindAll(p => p.GetType() == type))
                 {
@@ -98,7 +97,6 @@ namespace Periodicals.Subscriptions
                 {
                     productsMonthlyRevenue.Add(product, GetProductMonthlyRevenueInYear(product, year));
                 }
-
 
             foreach (var productMonthlyRevenue in productsMonthlyRevenue)
             {
