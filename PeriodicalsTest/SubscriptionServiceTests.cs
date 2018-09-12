@@ -41,7 +41,7 @@ namespace PeriodicalsTest
             Assert.That(sub.EndDate, Is.Not.Null);
         }
         [Test]
-        public void GetMagazineMonthlyRevenueInYear_ReturnsCorrectMonthlyRevenues()
+        public void GetProductMonthlyRevenueInYear_ReturnsCorrectMonthlyRevenues()
         {
             // ARRANGE
             var year = 2017;
@@ -61,14 +61,13 @@ namespace PeriodicalsTest
                     Convert.ToDateTime("01/09/2017"))
             });
 
-
             // ACT
             List<float> rev = subscriptionService.GetProductMonthlyRevenueInYear(magazine, year);
             List<float> rev2 = subscriptionService.GetProductMonthlyRevenueInYear(newspaper, year);
 
             // ASSERT
-            Assert.AreEqual((magazine.Price / 12) * 12, rev.Sum());
-            Assert.AreEqual((newspaper.Price / 12) * (9 + 12), rev2.Sum());
+            Assert.That((magazine.Price / 12) * 12,Is.EqualTo(rev.Sum()));
+            Assert.That((newspaper.Price / 12) * (9 + 12), Is.EqualTo(rev2.Sum()));
         }
 
         [TestCase("20/01/2018", "01/02/2018", typeof(Magazine), ExpectedResult = true)]
@@ -77,8 +76,6 @@ namespace PeriodicalsTest
         [TestCase("02/02/2018", "01/02/2018", typeof(Magazine), ExpectedResult = false)]
         public bool IsFailedToPay_ReturnsCorrectly(string subscriptionEndDate, string today, Type type)
         {
-            
-
             return SubscriptionService.IsFailedToPay(Convert.ToDateTime(subscriptionEndDate), Convert.ToDateTime(today), type);
         }
     }
