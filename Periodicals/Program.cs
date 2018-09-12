@@ -96,8 +96,12 @@ namespace Periodicals
                             }
                             var subscriptionsToImport = CsvParser.LinesToSubscriptions(ProductService, type, subscriptionLines);
                             SubscriptionService.AddSubscription(subscriptionsToImport);
+                            Console.WriteLine("Successfully imported.");
                         }
-                        Console.WriteLine("Successfully imported.");
+                        else
+                        {
+                            Console.WriteLine("No file selected.");
+                        }
                         Console.ReadKey();
                         break;
                     case '0':
