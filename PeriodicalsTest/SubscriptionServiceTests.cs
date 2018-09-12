@@ -22,19 +22,23 @@ namespace PeriodicalsTest
         [Test]
         public void CreateSubscriptionWithExistingProduct_CreateSuccess()
         {
+            // ARRANGE
             var user = new User("Jeff");
             var type = typeof(Magazine);
             var startDate = Convert.ToDateTime("01/09/2014");
             var lastPaidDate = Convert.ToDateTime("31/08/2017");
             var magazine = new Magazine("blah", 0);
             ProductService.AddProduct(magazine);
+
+            // ACT
             var sub = new Subscription(ProductService, type, user, magazine.Title, startDate, lastPaidDate);
 
+            // ASSERT
             Assert.That(sub.User.Name, Is.EqualTo(user.Name));
             Assert.That(sub.Product.GetType(), Is.EqualTo(type));
             Assert.That(sub.Product.Title, Is.EqualTo(magazine.Title));
             Assert.That(sub.StartDate, Is.EqualTo(startDate));
-            Assert.That(sub.EndDate, !Is.Empty);
+            Assert.That(sub.EndDate, Is.Not.Null);
         }
         [Test]
         public void GetMagazineMonthlyRevenueInYear_ReturnsCorrectMonthlyRevenues()
@@ -66,17 +70,16 @@ namespace PeriodicalsTest
             Assert.AreEqual((magazine.Price / 12) * 12, rev.Sum());
             Assert.AreEqual((newspaper.Price / 12) * (9 + 12), rev2.Sum());
         }
-        
-        [TestCase(0, -1, "01/02/2018", ExpectedResult = true)]
-        [TestCase(-1, 0, "01/02/2018", ExpectedResult = true)]
-        [TestCase(0, 0, "01/02/2018", ExpectedResult = true)]  
-        [TestCase(0, 1, "01/02/2018", ExpectedResult = false)]
-        [TestCase(1, 0, "01/02/2018", ExpectedResult = false)]
-        public bool IsFailedToPay_ReturnsCorrectly(int yearOffset, int monthOffset, string firstDayOfMonth)
-        {
-            var subscriptionEndDate = Convert.ToDateTime(firstDayOfMonth).AddYears(yearOffset).AddMonths(monthOffset).AddDays(-1); // always set to end of last month
 
-            return SubscriptionService.IsFailedToPay(subscriptionEndDate, Convert.ToDateTime(firstDayOfMonth));
+        [TestCase("20/01/2018", "01/02/2018", typeof(Magazine), ExpectedResult = true)]
+        [TestCase("01/02/2018", "01/02/2018", typeof(Magazine), ExpectedResult = true)]
+        [TestCase("01/02/2018", "01/02/2018", typeof(Newspaper), ExpectedResult = false)]
+        [TestCase("02/02/2018", "01/02/2018", typeof(Magazine), ExpectedResult = false)]
+        public bool IsFailedToPay_ReturnsCorrectly(string subscriptionEndDate, string today, Type type)
+        {
+            
+
+            return SubscriptionService.IsFailedToPay(Convert.ToDateTime(subscriptionEndDate), Convert.ToDateTime(today), type);
         }
     }
 }

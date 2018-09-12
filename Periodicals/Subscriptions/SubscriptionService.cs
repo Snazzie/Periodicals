@@ -48,7 +48,7 @@ namespace Periodicals.Subscriptions
 
             foreach (var subscription in Subscriptions)
             {
-                if (IsFailedToPay(subscription.EndDate, DateTime.Today))
+                if (IsFailedToPay(subscription.EndDate, DateTime.Today, subscription.Product.GetType()))
                 {
                     failedToPaySubscriptions.Add(subscription);
                 }
@@ -57,11 +57,14 @@ namespace Periodicals.Subscriptions
             return failedToPaySubscriptions;
         }
 
-        public static bool IsFailedToPay(DateTime subscriptionEndDate, DateTime today)
+        public static bool IsFailedToPay(DateTime subscriptionEndDate, DateTime today, Type type)
         {
             //var startOfThisMonth = Convert.ToDateTime($"1/{today.Month}/{today.Year}");    possibly not needed
-
-            return subscriptionEndDate < today;
+            if (type == typeof(Magazine))
+                return subscriptionEndDate <= today;
+            if (type == typeof(Newspaper))
+                return subscriptionEndDate < today;
+            throw new Exception();
         }
 
         public List<float> GetProductMonthlyRevenueInYear(Product product, int year)
@@ -82,7 +85,7 @@ namespace Periodicals.Subscriptions
         public void ShowRevenueOfAllProductsInYear(int year, Type type = null)
         {
             var revenueFor = type == null ? "all products" : type.Name;
-            
+
             Console.WriteLine($"# Monthly Revenue in {year} for {revenueFor}");
             var productsMonthlyRevenue = new Dictionary<Product, List<float>>();
             if (type != null)
