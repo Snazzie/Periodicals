@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
-using Periodicals.Magazines;
+using Periodicals.Products;
 using Periodicals.Subscriptions;
 using Periodicals.Users;
 
@@ -18,12 +15,12 @@ namespace Periodicals
             return File.ReadAllLines(path).ToList();
         }
 
-        public static List<Subscription> LinesToSubscriptions(MagazineService magazineService, List<string> lines)
+        public static List<Subscription> LinesToSubscriptions(ProductService productService, Type type, List<string> lines)
         {
             var subscriptions = new List<Subscription>();
             foreach (var line in lines)
             {
-                if (TryCreateSubscriptionFromLine(magazineService, line, out var newSubscription))
+                if (TryCreateSubscriptionFromLine(productService, type, line, out var newSubscription))
                     subscriptions.Add(newSubscription);
             }
 
@@ -31,7 +28,7 @@ namespace Periodicals
         }
 
         // TODO: Handle infinite amount of commas
-        public static bool TryCreateSubscriptionFromLine(MagazineService magazineService,string line, out Subscription subscription)
+        public static bool TryCreateSubscriptionFromLine(ProductService productService, Type type, string line, out Subscription subscription)
         {
             var newLines = line.Split(',').ToList();
             if (DateTime.TryParse(newLines.Last(), out _))
@@ -43,10 +40,9 @@ namespace Periodicals
                 }
                 var user = new User(newLines[0]);
                 var title = newLines[1];
-                var magazine = title;
                 var startDate = DateTime.Parse(newLines[2]);
                 var lastPaid = DateTime.Parse(newLines[3]);
-                subscription = new Subscription(magazineService, user, magazine, startDate, lastPaid);
+                subscription = new Subscription(productService, type, user, title, startDate, lastPaid);
                 return true;
             }
 

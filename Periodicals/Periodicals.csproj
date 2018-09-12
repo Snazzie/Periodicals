@@ -45,8 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsvParser.cs" />
-    <Compile Include="Magazines\Magazine.cs" />
-    <Compile Include="Magazines\MagazineService.cs" />
+    <Compile Include="Products\Magazine.cs" />
+    <Compile Include="Products\Newspaper.cs" />
+    <Compile Include="Products\Product.cs" />
+    <Compile Include="Products\ProductService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subscriptions\SubscriptionService.cs" />

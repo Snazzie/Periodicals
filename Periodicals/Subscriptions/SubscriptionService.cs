@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Periodicals.Magazines;
+using Periodicals.Products;
 using Periodicals.Users;
 
 namespace Periodicals.Subscriptions
@@ -9,12 +9,12 @@ namespace Periodicals.Subscriptions
     public class SubscriptionService
     {
         public List<Subscription> Subscriptions { get; set; }
-        private List<Magazine> Magazines { get; set; }
+        private List<Product> Products { get; set; }
 
-        public SubscriptionService(List<Magazine> magazines)
+        public SubscriptionService(List<Product> products)
         {
             Subscriptions = new List<Subscription>();
-            Magazines = magazines;
+            Products = products;
         }
 
         public void AddSubscription(Subscription subscription)
@@ -31,10 +31,10 @@ namespace Periodicals.Subscriptions
         {
             Console.WriteLine($"# Users who have failed to pay as of today ({DateTime.Today.ToShortDateString()}): \n");
 
-            
+
             foreach (var subscription in GetFailedToPaySubscriptions())
             {
-                Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Magazine.Title}\n" +
+                Console.WriteLine($"  -{subscription.User.Name} failed to pay for {subscription.Product.Title} [{subscription.Product.GetType().Name}]\n" +
                                   $"      Subscription Started: {subscription.StartDate.ToShortDateString()}\n" +
                                   $"      Last paid date: {subscription.LastPaid.ToShortDateString()}\n" +
                                   $"      Subscription end date: {subscription.EndDate.ToShortDateString()}\n");
@@ -47,7 +47,7 @@ namespace Periodicals.Subscriptions
 
             foreach (var subscription in Subscriptions)
             {
-                if (IsFailedToPay(subscription.EndDate, DateTime.Today))
+                if (IsFailedToPay(subscription.EndDate, DateTime.Today, subscription.Product.GetType()))
                 {
                     failedToPaySubscriptions.Add(subscription);
                 }
@@ -56,41 +56,55 @@ namespace Periodicals.Subscriptions
             return failedToPaySubscriptions;
         }
 
-        public static bool IsFailedToPay(DateTime subscriptionEndDate, DateTime today)
+        public static bool IsFailedToPay(DateTime subscriptionEndDate, DateTime today, Type type)
         {
-            var startOfThisMonth = Convert.ToDateTime($"1/{today.Month}/{today.Year}");
-            return subscriptionEndDate < startOfThisMonth ;
+            //var startOfThisMonth = Convert.ToDateTime($"1/{today.Month}/{today.Year}");    possibly not needed
+            if (type == typeof(Magazine))
+                return subscriptionEndDate <= today;
+            if (type == typeof(Newspaper))
+                return subscriptionEndDate < today;
+            throw new Exception("Type doesnt exist");
         }
 
-        public List<float> GetMagazineMonthlyRevenueInYear(Magazine magazine, int year)
+        public List<float> GetProductMonthlyRevenueInYear(Product product, int year)
         {
-            var subs = Subscriptions.FindAll(s => s.Magazine.Title == magazine.Title && s.StartDate.Year <= year && year <= s.EndDate.Year);
+            var subs = Subscriptions.FindAll(s => s.Product.Title == product.Title && s.StartDate.Year <= year && year <= s.EndDate.Year);
             var revs = new List<float>();
             for (int month = 1; month <= 12; month++)
             {
                 var checkingMonth = Convert.ToDateTime($"01/{month}/{year}");
                 var subsInMonth = subs.FindAll(s => s.StartDate <= checkingMonth && checkingMonth <= s.EndDate);
-                revs.Add(subsInMonth.Count * (magazine.Price / 12));
+                revs.Add(subsInMonth.Count * (product.Price / 12));
             }
             return revs;
         }
 
-        public void ShowRevenueOfAllMagazinesInYear(int year)
+        /// <param name="year"></param>
+        /// <param name="type">null for all products</param>
+        public void ShowRevenueOfAllProductsInYear(int year, Type type = null)
         {
-            Console.WriteLine($"# Monthly Revenue in {year} for all magazines");
-            var magazinesMonthlyRevenue = new Dictionary<Magazine, List<float>>();
-            foreach (var magazine in Magazines)
-            {
-                magazinesMonthlyRevenue.Add(magazine, GetMagazineMonthlyRevenueInYear(magazine, year));
-            }
+            var revenueFor = type == null ? "all products" : type.Name;
+            Console.WriteLine($"# Monthly Revenue in {year} for {revenueFor}");
+            var productsMonthlyRevenue = new Dictionary<Product, List<float>>();
 
-            foreach (var magazineMonthlyRevenue in magazinesMonthlyRevenue)
+            if (type != null)
+                foreach (var product in Products.FindAll(p => p.GetType() == type))
+                {
+                    productsMonthlyRevenue.Add(product, GetProductMonthlyRevenueInYear(product, year));
+                }
+            else
+                foreach (var product in Products)
+                {
+                    productsMonthlyRevenue.Add(product, GetProductMonthlyRevenueInYear(product, year));
+                }
+
+            foreach (var productMonthlyRevenue in productsMonthlyRevenue)
             {
-                Console.WriteLine($"--{magazineMonthlyRevenue.Key.Title} -> Sum: ${magazineMonthlyRevenue.Value.Sum()}");
+                Console.WriteLine($"[{productMonthlyRevenue.Key.GetType().Name}] {productMonthlyRevenue.Key.Title} -> Sum: ${productMonthlyRevenue.Value.Sum()}");
 
                 for (int month = 1; month <= 12; month++)
                 {
-                    Console.WriteLine($"   month:{month} = ${magazineMonthlyRevenue.Value[month - 1]}");
+                    Console.WriteLine($"   month:{month} = ${productMonthlyRevenue.Value[month - 1]}");
                 }
             }
 
