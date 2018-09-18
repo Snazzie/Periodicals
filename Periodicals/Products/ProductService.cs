@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace Periodicals.Products
 {
     public class ProductService
     {
-        public List<Product> Products { get; private set; }
-
         public ProductService()
         {
             Products = new List<Product>();
@@ -17,10 +16,13 @@ namespace Periodicals.Products
             Products = products;
         }
 
+        public List<Product> Products { get; }
+
         public void AddProduct(Product product)
         {
             Products.Add(product);
         }
+
         public void AddProduct(IEnumerable<Product> magazines)
         {
             magazines.ToList().ForEach(m => Products.Add(m));
@@ -30,8 +32,5 @@ namespace Periodicals.Products
         {
             return (product = Products.Find(m => m.GetType() == type && m.Title == title)) != null;
         }
-
-
     }
-
 }

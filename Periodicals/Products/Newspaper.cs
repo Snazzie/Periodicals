@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Periodicals.Products
+﻿namespace Periodicals.Products
 {
     public class Newspaper : Product
     {

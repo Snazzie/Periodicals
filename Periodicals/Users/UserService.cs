@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Periodicals.Users
 {
     public class UserService
     {
-        public List<User> Users { get; private set; }
-
         public UserService()
         {
             Users = new List<User>();
@@ -19,6 +14,8 @@ namespace Periodicals.Users
         {
             Users = users;
         }
+
+        public List<User> Users { get; }
 
         public void AddUser(User newUser)
         {

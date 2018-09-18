@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsvParser.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Products\Magazine.cs" />
     <Compile Include="Products\Newspaper.cs" />
     <Compile Include="Products\Product.cs" />
